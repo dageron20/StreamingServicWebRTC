@@ -1,11 +1,16 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Main from '../pages/main';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 const App =() => {
   return (
-      <div>
-          Test
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path={AppRoute.MAIN} element={<Main />}>
+          </Route>
+        </Routes>
+      </BrowserRouter>
   )
 };
 
