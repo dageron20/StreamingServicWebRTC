@@ -14,7 +14,9 @@ const Header = () => {
 
     return (
         <header className="header">
-            <img className="header-logo" src="./image/logo.png" alt="Лого" border="0" />
+            <Link to={AppRoute.MAIN}>
+                <img className="header-logo" src="./image/logo.png" alt="Лого" border="0" />
+            </Link>
             <form className="header-search">
                 <input id="search" type='search' placeholder="Кого найти?" required />
                 <button type="sumbit">Найти</button>
