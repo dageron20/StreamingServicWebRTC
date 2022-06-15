@@ -25,12 +25,13 @@ const Videocapture = () => {
     }
 
     useEffect(() => {
-        signal = new IonSFUJSONRPCSignal("ws://localhost:7000/ws");
-        client = new Client(signal, config);
-        signal.onopen = () => client.join("test room");
+        window.signal = new IonSFUJSONRPCSignal("ws://192.168.0.102:7000/ws");
+        window.client = new Client(window.signal, config);
+        window.signal.onopen = () =>window.client.join("test room");
 
         if (!isPub) {
-            client.ontrack = (track, stream) => {
+            console.log(23)
+            window.client.ontrack = (track, stream) => {
                 console.log("got track: ", track.id, "for stream: ", stream.id);
                 track.onunmute = () => {
                     subVideo.current.srcObject = stream;
@@ -46,6 +47,22 @@ const Videocapture = () => {
     }, []);
 
     const start = (event) => {
+//         LocalStream.getUserMedia({
+//             resolution: "vga",
+//             audio: true,
+//             codec:  "vp8",
+//           })
+//             .then((media) => {
+//                 pubVideo.current.srcObject = media;
+//                 pubVideo.current.autoplay = true;
+//                 pubVideo.current.controls = true;
+//                 pubVideo.current.muted = true;
+
+//                 window.client.publish(media);
+//             })
+//             .catch(console.error);
+// return;
+
         if (event) {
             LocalStream.getUserMedia({
                 resolution: 'vga',
@@ -56,7 +73,7 @@ const Videocapture = () => {
                 pubVideo.current.autoplay = true;
                 pubVideo.current.controls = true;
                 pubVideo.current.muted = true;
-                client.publish(media);
+                window.client.publish(media);
             }).catch(console.error);
         } else {
             LocalStream.getDisplayMedia({
@@ -69,7 +86,7 @@ const Videocapture = () => {
                 pubVideo.current.autoplay = true;
                 pubVideo.current.controls = true;
                 pubVideo.current.muted = true;
-                client.publish(media);
+                window.client.publish(media);
             }).catch(console.error);
         }
     }
