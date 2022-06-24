@@ -17,10 +17,10 @@ const Header = () => {
             <Link to={AppRoute.MAIN}>
                 <img className="header-logo" src="./image/logo.png" alt="Лого" border="0" />
             </Link>
-            <form className="header-search">
-                <input id="search" type='search' placeholder="Кого найти?" required />
-                <button type="sumbit">Найти</button>
-            </form>
+            <div className="header-selecter">
+                <Link to={AppRoute.STREAM} type="button">Транслировать</Link>
+                <Link to={AppRoute.MAIN} type="button">Cмотреть</Link>
+            </div>
 
             <div className="header-profile" onClick={activeDropMenu}>
                 <p className="username">Denis Kirilyuk</p>
