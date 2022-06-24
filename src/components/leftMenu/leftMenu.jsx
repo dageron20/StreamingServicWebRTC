@@ -1,16 +1,25 @@
 import React from "react";
 import "./leftMenu.scss";
+import { useState } from "react";
 
 const LeftMenu = () => {
+
+    const [dropmenu, setdropmenu] = useState()
+    const activeLeftMenu = () => {
+        setdropmenu(!dropmenu);
+    }
+
     return (
         <div className="wrapper">
-            <div className="menu">
-                <a href="#" className="menu-btn"></a>
+            <div className={`menu ${(dropmenu === true) && "menu_active"}`}>
+                <a href="#" className={`menu-btn ${(dropmenu === true) && "menu_active"}`}  onClick={activeLeftMenu}>
+                <div className={`arrow ${(dropmenu === true) && "arrow_active"}`}></div>
+                </a>
                 <nav className="menu-list">
-                    <a href="#">Главная</a>
-                    <a href="#">Новости</a>
-                    <a href="#">Контакты</a>
-                    <a href="#">Портфолио</a>
+                    <h3>Текущие активные комнаты:</h3>
+                    <ul>
+                        <li>Отсутствуют</li>
+                    </ul>
                 </nav>
             </div>
         </div>

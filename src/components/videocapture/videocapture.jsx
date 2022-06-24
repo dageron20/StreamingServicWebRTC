@@ -1,7 +1,9 @@
-import React, { useRef, useEffect }  from "react";
-import  "./videocapture.scss";
+import React, { useRef, useEffect } from "react";
+import "./videocapture.scss";
 import { Client, LocalStream } from "ion-sdk-js";
 import { IonSFUJSONRPCSignal } from 'ion-sdk-js/lib/signal/json-rpc-impl';
+import Wand from "./wand";
+
 
 const Videocapture = () => {
     const pubVideo = useRef();
@@ -25,13 +27,12 @@ const Videocapture = () => {
     }
 
     useEffect(() => {
-        window.signal = new IonSFUJSONRPCSignal("ws://192.168.0.102:7000/ws");
-        window.client = new Client(window.signal, config);
-        window.signal.onopen = () =>window.client.join("test room");
+        signal = new IonSFUJSONRPCSignal("ws://192.168.0.103:7000/ws");
+        client = new Client(signal, config);
+        signal.onopen = () => client.join("test room");
 
         if (!isPub) {
-            console.log(23)
-            window.client.ontrack = (track, stream) => {
+            client.ontrack = (track, stream) => {
                 console.log("got track: ", track.id, "for stream: ", stream.id);
                 track.onunmute = () => {
                     subVideo.current.srcObject = stream;
@@ -47,22 +48,6 @@ const Videocapture = () => {
     }, []);
 
     const start = (event) => {
-//         LocalStream.getUserMedia({
-//             resolution: "vga",
-//             audio: true,
-//             codec:  "vp8",
-//           })
-//             .then((media) => {
-//                 pubVideo.current.srcObject = media;
-//                 pubVideo.current.autoplay = true;
-//                 pubVideo.current.controls = true;
-//                 pubVideo.current.muted = true;
-
-//                 window.client.publish(media);
-//             })
-//             .catch(console.error);
-// return;
-
         if (event) {
             LocalStream.getUserMedia({
                 resolution: 'vga',
@@ -73,7 +58,7 @@ const Videocapture = () => {
                 pubVideo.current.autoplay = true;
                 pubVideo.current.controls = true;
                 pubVideo.current.muted = true;
-                window.client.publish(media);
+                client.publish(media);
             }).catch(console.error);
         } else {
             LocalStream.getDisplayMedia({
@@ -86,28 +71,63 @@ const Videocapture = () => {
                 pubVideo.current.autoplay = true;
                 pubVideo.current.controls = true;
                 pubVideo.current.muted = true;
-                window.client.publish(media);
+                client.publish(media);
             }).catch(console.error);
         }
     }
 
+    Wand({
+        targetSelector: "#wand",
+        event: "click",
+        iconSrc: "https://raw.githubusercontent.com/gist/mmathys/fbbfbc171233a30e478ad5b87ec4f5d8/raw/cd9219e336b8f3b85579015bdce9665def091bb8/heart.svg"
+    })
+
+
+
+
     return (
-        <div>
-            <main>
+        <>
+            <div className="video-chat">
+                <div className="video-chat_name">
+                    ЧАТ ТРАНСЛЯЦИИ
+                </div>
+                <div className="video-chat-window">
+                    <div className="video-chat-window--line">
+                        <span className="chat-text-name">Anonym:</span>
+                        <span className="chat-text">Привет Всем</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="video-window">
                 {isPub ? (
                     <div>
                         <button id="bnt_pubcam" onClick={() => start(true)}>Демка камеры</button>
-                        <button id="bnt_pubscreen"  onClick={() => start(false)}>Каст экрана</button>
+                        <button id="bnt_pubscreen" onClick={() => start(false)}>Каст экрана</button>
                     </div>
                 ) : null
                 }
-            </main>
-            {isPub ? (
-                <video id="pubVideo" controls ref={pubVideo}></video>
-            ) : (
-                <video id="subVideo" controls ref={subVideo}></video>
-            )}
-        </div>
+                {isPub ? (
+                    <video className="video-tag" id="pubVideo" controls ref={pubVideo} poster="./image/poster2.gif">
+                    </video>
+                ) : (
+                    <video className="video-tag" id="subVideo" controls ref={subVideo} poster="./image/poster2.gif">
+                    </video>
+                )}
+                <button id="wand">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24">
+                        <path fill="red" d="M12 21.35l-1.45-1.32c-5.15-4.67-8.55-7.75-8.55-11.53 0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09 1.09-1.28 2.76-2.09 4.5-2.09 3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.45 1.31z" />
+                    </svg>
+                    <span className="like-counter">5</span>
+                </button>
+            </div>
+
+        </>
+
     );
 }
 
