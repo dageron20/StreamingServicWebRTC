@@ -1,4 +1,5 @@
 export const AppRoute = {
-    MAIN: '/',
-    STREAM: '/?publish=true'
-  };
+  MAIN: '/',
+  STREAM: '/stream',
+  WATCH: '/watch'
+};
