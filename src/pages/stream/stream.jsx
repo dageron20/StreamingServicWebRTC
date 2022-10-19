@@ -1,21 +1,20 @@
 import React from 'react';
 import Header from '../../components/header/header';
 import LeftMenu from '../../components/leftMenu/leftMenu';
-import MainBanner from '../../components/mainBanner/mainBanner';
 import Videocapture from '../../components/videocapture/videocapture';
-import "./main.scss";
+import "./stream.scss";
 
-const Main = () => {
+const Stream = () => {
     return (
         <>
             <LeftMenu />
             <Header />
             <main className='main-content'>
-                <MainBanner />
+                <Videocapture />
             </main>
             
         </>
     )
 }
 
-export default Main;
+export default Stream;

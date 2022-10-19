@@ -14,14 +14,6 @@ const Header = () => {
 
     return (
         <header className="header">
-            <Link to={AppRoute.MAIN}>
-                <img className="header-logo" src="./image/logo.png" alt="Лого" border="0" />
-            </Link>
-            <div className="header-selecter">
-                <Link to={AppRoute.STREAM} type="button">Транслировать</Link>
-                <Link to={AppRoute.MAIN} type="button">Cмотреть</Link>
-            </div>
-
             <div className="header-profile" onClick={activeDropMenu}>
                 <p className="username">Denis Kirilyuk</p>
                 <div className="header-profile__avatar">
@@ -32,11 +24,6 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-
-
-
-
-
         </header>
     )
 }

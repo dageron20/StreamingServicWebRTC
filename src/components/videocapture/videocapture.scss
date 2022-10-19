@@ -1,19 +1,26 @@
 .video-tag {
     width: 1400px;
+    max-height: 800px;
+    border: 1px solid rgb(221, 221, 221);
 }
 
 .video-window {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 #wand {
     border: none;
-    background-color: white;
+    background: none;
     transition: all 0.5s;
 
     display: flex;
     flex-direction: column;
+
+    position: absolute;
+    top: 700px;
+    right: 0px;
 }
 
 .like-counter {
@@ -54,16 +61,88 @@
 
     &-window {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: wrap;
         margin: 10px;
+        height: 100%;
+
+        &--line {
+            margin-bottom: 10px;
+        }
 
         & .chat-text-name {
             font-weight: 600;
             margin-right: 5px;
         }
+    }
 
+    &-input {
+
+        & .chat-form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        & .input-text {
+            width: 100%;
+            resize: none;
+            padding: 10px;
+            background-color: #f6f6f652;
+            margin-left: 10px;
+        }
+
+
+        & .btn {
+            background-color: #2a96ef;
+            color: white;
+            border: none;
+            margin: 0px 10px;
+            padding: 19px;
+            cursor: pointer;
+        }
     }
 
 
+}
+
+.like-counter {
+    color: white;
+}
+
+.buttons-cta {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    margin: 15px 10px;
+}
+
+.cta {
+    display: flex;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background: #6225E6;
+    transition: 1s;
+    box-shadow: 6px 6px 0 black;
+    transform: skewX(-15deg);
+}
+
+.cta:focus {
+   outline: none; 
+}
+
+.cta:hover {
+    transition: 0.5s;
+    box-shadow: 10px 10px 0 #FBC638;
+}
+
+
+.cta:hover  span:nth-child(2) {
+    transition: 0.5s;
+    margin-right: 45px;
 }

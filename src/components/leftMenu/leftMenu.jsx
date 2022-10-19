@@ -18,7 +18,7 @@ const LeftMenu = () => {
                 <nav className="menu-list">
                     <h3>Текущие активные комнаты:</h3>
                     <ul>
-                        <li>Отсутствуют</li>
+                        <li>Комната №1</li>
                     </ul>
                 </nav>
             </div>

@@ -3,9 +3,12 @@ import "./videocapture.scss";
 import { Client, LocalStream } from "ion-sdk-js";
 import { IonSFUJSONRPCSignal } from 'ion-sdk-js/lib/signal/json-rpc-impl';
 import Wand from "./wand";
+import { useLocation } from 'react-router-dom';
+import { AppRoute } from "../../const";
 
 
 const Videocapture = () => {
+    const location = useLocation();
     const pubVideo = useRef();
     const subVideo = useRef();
 
@@ -18,16 +21,17 @@ const Videocapture = () => {
             },
         ],
     };
-    const URL = new URLSearchParams(window.location.search).get("publish");
-    console.log("url", URL);
-    if (URL) {
+
+    if (location.pathname == AppRoute.STREAM) {
         isPub = true;
     } else {
         isPub = false;
     }
 
+    console.log(isPub);
+
     useEffect(() => {
-        signal = new IonSFUJSONRPCSignal("ws://192.168.0.103:7000/ws");
+        signal = new IonSFUJSONRPCSignal("ws://localhost:7000/ws");
         client = new Client(signal, config);
         signal.onopen = () => client.join("test room");
 
@@ -76,14 +80,14 @@ const Videocapture = () => {
         }
     }
 
-    Wand({
-        targetSelector: "#wand",
-        event: "click",
-        iconSrc: "https://raw.githubusercontent.com/gist/mmathys/fbbfbc171233a30e478ad5b87ec4f5d8/raw/cd9219e336b8f3b85579015bdce9665def091bb8/heart.svg"
-    })
 
-
-
+    useEffect(() => {
+        Wand({
+            targetSelector: "#wand",
+            event: "click",
+            iconSrc: "https://raw.githubusercontent.com/gist/mmathys/fbbfbc171233a30e478ad5b87ec4f5d8/raw/cd9219e336b8f3b85579015bdce9665def091bb8/heart.svg"
+        })
+    }, []);
 
     return (
         <>
@@ -96,24 +100,31 @@ const Videocapture = () => {
                         <span className="chat-text-name">Anonym:</span>
                         <span className="chat-text">Привет Всем</span>
                     </div>
+
+                </div>
+                <div className="video-chat-input">
+                    <form className="chat-form">
+                        <textarea type="text" class="input-text" id="comment-body" placeholder="Введите сообщение"></textarea>
+                        <button type="submit" id="comment-add" class="btn btn-primary">Чат</button>
+                    </form>
                 </div>
             </div>
 
             <div className="video-window">
                 {isPub ? (
-                    <div>
-                        <button id="bnt_pubcam" onClick={() => start(true)}>Демка камеры</button>
-                        <button id="bnt_pubscreen" onClick={() => start(false)}>Каст экрана</button>
+                    <div className="buttons-cta">
+                        <button class="cta" id="bnt_pubcam" onClick={() => start(true)}>Демка камеры</button>
+                        <button class="cta" id="bnt_pubscreen" onClick={() => start(false)}>Каст экрана</button>
                     </div>
                 ) : null
                 }
-                {isPub ? (
-                    <video className="video-tag" id="pubVideo" controls ref={pubVideo} poster="./image/poster2.gif">
-                    </video>
-                ) : (
-                    <video className="video-tag" id="subVideo" controls ref={subVideo} poster="./image/poster2.gif">
-                    </video>
-                )}
+
+                <video
+                    className="video-tag"
+                    id={isPub ? "pubVideo" : "subVideo"}
+                    ref={isPub ? pubVideo : subVideo}
+                    poster="./image/poster2.gif"
+                ></video>
                 <button id="wand">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
